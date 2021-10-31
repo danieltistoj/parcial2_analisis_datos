@@ -1,6 +1,7 @@
 import pymongo
 from clases.cliente import *
 from clases.restaurante import *
+import random
 class MongoDB:
     def __init__(self):
         #si la ip no conecta, conectarse a localhost
@@ -36,4 +37,23 @@ class MongoDB:
           "restaurante":restauranteDocumento
 
         }
-        self.coleccion.insert(clienteDocumento)
+        self.coleccion.insert_one(clienteDocumento)
+
+
+mongo = MongoDB()
+for x in range(100000):
+    aleatorioCliente = random.randint(1,20)
+    aleatorioRestaurante = random.randint(1,20)
+    calificacionAleatorio = random.randint(1,100)
+
+    cliente = Cliente("cliente{}".format(aleatorioCliente),
+                      "telefono{}".format(aleatorioCliente),
+                      "comentario{}".format(aleatorioCliente),
+                      "ubicacion{}".format(aleatorioCliente),
+                      calificacionAleatorio)
+    restaurate = Restaurante("restaurante{}".format(aleatorioRestaurante)
+                             ,"telefono{}".format(aleatorioRestaurante),
+                             "ubicacion{}".format(aleatorioRestaurante))
+
+
+    mongo.guardar(cliente,restaurate)
